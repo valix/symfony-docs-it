@@ -4,8 +4,12 @@
 Installare Composer
 ===================
 
-`Composer`_ è il gestore di pacchetti usato dalle applicazioni PHP moderne ed lo
-strumento raccomandato per installare Symfony.
+`Composer`_ è il gestore di pacchetti usato dalle applicazioni PHP moderne. Usare Composer
+per gestire dipendenze nelle applicazioni Symfony per per installare componenti Symfony
+nei progetti PHP.
+
+Si raccomanda di installare Composer globalmente nel proprio sistema, come spiegato
+nelle sezioni seguenti.
 
 Installare Composer su Linux e Mac OS X
 ---------------------------------------
@@ -28,8 +32,8 @@ Per installare Composer su Linux e Mac OS X, eseguire questi due comandi:
         $ php installer
         $ sudo mv composer.phar /usr/local/bin/composer
 
-Installre Composer su Windows
------------------------------
+Installare Composer su Windows
+------------------------------
 
 Scaricare l'installatore da `getcomposer.org/download`_, eseguirlo e seguire
 le istruzioni.

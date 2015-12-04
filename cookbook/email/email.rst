@@ -22,7 +22,7 @@ Per usare Swift Mailer, occorre configurarlo per il server di posta.
     Invece di usare un server di posta interno, si potrebbe voler usare
     un fornitore con hosting, come `Mandrill`_, `SendGrid`_, `Amazon SES`_
     o altri. In questo modo si ottiene un server SMTP, username e password (a volte
-    chiamate chiavi), da usare con la configirazione di Swift Mailer.
+    chiamate chiavi), da usare con la configurazione di Swift Mailer.
 
 In una tipica installazione di Symfony è già inclusa una configurazione
 per ``swiftmailer``:
@@ -93,8 +93,7 @@ In generale, spedire un'email è abbastanza intuitivo::
 
     public function indexAction($nome)
     {
-        $mailer = $this->get('mailer');
-        $messaggio = $mailer->createMessage()
+        $messaggio = \Swift_Message::newInstance()
             ->setSubject('Ciao')
             ->setFrom('mittente@example.com')
             ->setTo('destinatario@example.com')

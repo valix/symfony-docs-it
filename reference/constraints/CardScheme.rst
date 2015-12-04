@@ -9,7 +9,7 @@ di carte di credito. Può essere usato per validare il numero prima di provare a
 tramite un gateway.
 
 +----------------+--------------------------------------------------------------------------+
-| Si applica a   | :ref:`proprietà o metodo<validation-property-target>`                    |
+| Si applica a   | :ref:`proprietà o metodo <validation-property-target>`                   |
 +----------------+--------------------------------------------------------------------------+
 | Opzioni        | - `schemes`_                                                             |
 |                | - `message`_                                                             |
@@ -26,6 +26,24 @@ Per usare il validatore ``CardScheme``, aggiungerlo semplicemente a una propriet
 su un oggetto che conterrà un numero di carta di credito.
 
 .. configuration-block::
+
+    .. code-block:: php-annotations
+
+        // src/Acme/SubscriptionBundle/Entity/Transaction.php
+        namespace Acme\SubscriptionBundle\Entity\Transaction;
+
+        use Symfony\Component\Validator\Constraints as Assert;
+
+        class Transaction
+        {
+            /**
+             * @Assert\CardScheme(
+             *     schemes={"VISA"},
+             *     message="Numero di carta di credito non valido."
+             * )
+             */
+            protected $cardNumber;
+        }
 
     .. code-block:: yaml
 
@@ -56,21 +74,6 @@ su un oggetto che conterrà un numero di carta di credito.
                 </property>
             </class>
         </constraint-mapping>
-
-    .. code-block:: php-annotations
-
-        // src/Acme/SubscriptionBundle/Entity/Transaction.php
-        namespace Acme\SubscriptionBundle\Entity\Transaction;
-
-        use Symfony\Component\Validator\Constraints as Assert;
-
-        class Transaction
-        {
-            /**
-             * @Assert\CardScheme(schemes = {"VISA"}, message = "Numero di carta di credito non valido.")
-             */
-            protected $cardNumber;
-        }
 
     .. code-block:: php
 
@@ -118,7 +121,8 @@ validi sono:
 * ``MASTERCARD``
 * ``VISA``
 
-Per maggiori infomazioni sugli schemi usati, vedere `Wikipedia: Issuer identification number (IIN)`_.
+Per maggiori infomazioni sugli schemi usati, vedere
+`Wikipedia: Issuer identification number (IIN)`_.
 
 message
 ~~~~~~~

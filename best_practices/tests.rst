@@ -11,7 +11,7 @@ Test unitari
 
 I test unitari sono usati per testare la "logica di business"; essa è
 totalmente indipendente dal framework motivo per cui Symfony non include al suo interno
-nessun tool per i test unitari. Tuttavia, gli strumenti più conosciuti
+nessuno strumento per i test unitari. Tuttavia, gli strumenti più conosciuti
 sono `PhpUnit`_ e `PhpSpec`_.
 
 Test funzionali
@@ -67,7 +67,7 @@ Apparentemente potrebbe sembrare inutile, ma, considerando quanto poco sforzo vi
 è sempre un bene avere il test nell'applicazione.
 
 In informatica, questo tipo di test è chiamato `smoke test`_ e consiste
-in *"un test preliminare, che rivela fallimenti di base, ma abbastanza gravi da riniviare
+in *"un test preliminare, che rivela fallimenti di base, ma abbastanza gravi da rinviare
 il rilascio di un software"*.
 
 Definire gli URL nei test funzionali

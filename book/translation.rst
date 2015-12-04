@@ -26,7 +26,7 @@ dell'utente::
     un carattere di sottolineatura (``_``), poi il codice di *paese* `ISO 3166-1 alpha-2`_
     (per esempio ``fr_FR`` per francese/Francia).
 
-In questo capitolo si imparerà a usare il componenten Translation nel
+In questo capitolo si imparerà a usare il componente Translation nel
 framework Symfony. Si può leggere la
 :doc:`documentazione del componente Translation </components/translation/usage>`
 per saperne di più. Nel complesso, il processo ha diverse fasi:
@@ -127,7 +127,7 @@ ma XLIFF è il formato raccomandato:
 
     .. code-block:: xml
 
-        <!-- messages.fr.xliff -->
+        <!-- messages.fr.xlf -->
         <?xml version="1.0"?>
         <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
             <file source-language="en" datatype="plaintext" original="file.ext">
@@ -405,7 +405,7 @@ verifica le  risorse di traduzione di vari locale:
 #. Se non la trova, Symfony cerca una traduzione per una risorsa di traduzione ``fr``
    (p.e. ``messages.fr.xliff``);
 
-#. Se non trova nemeno questa, Symfony usa il parametro di configurazione ``fallback``,
+#. Se non trova nemmeno questa, Symfony usa il parametro di configurazione ``fallback``,
    che ha come valore predefinito ``en`` (vedere `Configurazione`_).
 
 .. _book-translation-user-locale:
@@ -525,6 +525,8 @@ nell'applicazione.
 
 .. index::
    single: Traduzioni; Rimandare al locale predefinito
+
+.. _book-translation-default-locale:
 
 Impostare un locale predefinito
 -------------------------------
@@ -661,7 +663,7 @@ bundle.
 
     .. code-block:: xml
 
-        <!-- validators.it.xliff -->
+        <!-- validators.it.xlf -->
         <?xml version="1.0"?>
         <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
             <file source-language="en" datatype="plaintext" original="file.ext">

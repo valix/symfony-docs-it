@@ -4,7 +4,7 @@
 Tipo di campo datetime
 ======================
 
-Questo tipo di campo consente all'utente di modicare dati che rappresentano
+Questo tipo di campo consente all'utente di modificare dati che rappresentano
 una data e un'ora (p.e. ``1984-06-05 12:15:30``).
 
 Può essere reso come una casella di testo o con tag select. Il formato sottostante dei
@@ -113,6 +113,7 @@ time_widget
 
 Definisce l'opzione ``widget`` per il tipo :doc:`time</reference/forms/types/time>`
 
+
 .. include:: /reference/forms/types/options/view_timezone.rst.inc
 
 widget
@@ -134,6 +135,7 @@ Opzioni ereditate
 -----------------
 
 Queste opzioni sono ereditate dal tipo :doc:`form </reference/forms/types/form>`:
+
 
 .. include:: /reference/forms/types/options/data.rst.inc
 

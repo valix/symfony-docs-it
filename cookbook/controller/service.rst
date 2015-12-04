@@ -126,7 +126,7 @@ Alternative ai metodi del controllore base
 ------------------------------------------
 
 Quando si usa un controllore definito come servizio, probabilmente non si estenderà
-la classe base ``Controller``. Invece di appoggiarsi ai metodi scorciatoria,
+la classe base ``Controller``. Invece di appoggiarsi ai metodi scorciatoia,
 si interagirà direttamente con i servizi necessari. Per fortuna, farlo è alquanto
 facile e il `codice della classe Controller`_ fornisce un ottimo spunto
 su come eseguire compiti comuni.
@@ -227,7 +227,7 @@ iniettare *solamente* il servizio o i servizi necessari direttamente nel control
 
    Questo non vuol dire che non si possano estendere questi controllori da un proprio
    controllore base. La rinuncia al controllore base standard è dovuta al fatto che
-   i metodi aiutanti si appoggiano al conenitore disponibile, che non è il caso
+   i metodi aiutanti si appoggiano al contenitore disponibile, che non è il caso
    dei controllori definiti come servizi. Può essere una buona
    idea estrarre del codice comune in un servizio che sia iniettato, piuttosto che
    inserire tale codice in un controllore base da estendere. Entrambi gli approcci
@@ -258,7 +258,13 @@ base:
 :method:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller::forward` (servizio: ``http_kernel``)
     .. code-block:: php
 
-        $httpKernel->forward($controller, $path, $query);
+        use Symfony\Component\HttpKernel\HttpKernelInterface;
+        // ...
+
+        $request = ...;
+        $attributes = array_merge($path, array('_controller' => $controller));
+        $subRequest = $request->duplicate($query, null, $attributes);
+        $httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
 
 :method:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller::generateUrl` (servizio: ``router``)
     .. code-block:: php

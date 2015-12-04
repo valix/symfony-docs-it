@@ -17,7 +17,7 @@ I gruppi della squadra di Symfony, in ordine decrescente di priorità, sono i se
 1. **Capo progetto**
 
 * Elegge i membri degli altri gruppi;
-* Esegue i merge delle richieste di pull in tutti i repoistory di Symfony.
+* Esegue i merge delle richieste di pull in tutti i repository di Symfony.
 
 2. **Merger**
 
@@ -117,9 +117,8 @@ Merge delle richieste di pull
 
 Si può eseguire il merge di una richiesta di pull se:
 
-* Sia passato abbastanza tempo per le revisioni (alcuni minuti per le modifiche
-  minori, almeno due giorni per le richieste di pull "normali" e quattro giorni per
-  le richieste di pull con "impatto significativo");
+* Sia passato abbastanza tempo per le revisioni (almeno due giorni per le richieste
+  di pull "normali" e quattro giorni per le richieste di pull con "impatto significativo");
 
 * Sia una modifica minore [1]_, indipendentemente dal numero di voti;
 

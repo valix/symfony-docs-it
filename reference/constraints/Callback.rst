@@ -18,7 +18,7 @@ fare qualsiasi cosa, incluso creare e assegnare errori di validazione.
     "violazioni" al validatore.
 
 +----------------+------------------------------------------------------------------------+
-| Si applica a   | :ref:`classi<validation-class-target>`                                 |
+| Si applica a   | :ref:`classe <validation-class-target>`                                |
 +----------------+------------------------------------------------------------------------+
 | Opzioni        | - `methods`_                                                           |
 +----------------+------------------------------------------------------------------------+
@@ -31,14 +31,6 @@ Preparazione
 ------------
 
 .. configuration-block::
-
-    .. code-block:: yaml
-
-        # src/Acme/BlogBundle/Resources/config/validation.yml
-        Acme\BlogBundle\Entity\Author:
-            constraints:
-                - Callback:
-                    methods:   [isAuthorValid]
 
     .. code-block:: php-annotations
 
@@ -53,6 +45,14 @@ Preparazione
         class Author
         {
         }
+
+    .. code-block:: yaml
+
+        # src/Acme/BlogBundle/Resources/config/validation.yml
+        Acme\BlogBundle\Entity\Author:
+            constraints:
+                - Callback:
+                    methods:   [isAuthorValid]
 
     .. code-block:: xml
 
@@ -89,32 +89,37 @@ Preparazione
             }
         }
 
-Il metod callback
------------------
+Il metodo callback
+------------------
 
-Il metod callback è passato a uno speciale oggetto ``ExecutionContext``. Si possono
+Il metodo callback è passato a uno speciale oggetto ``ExecutionContextInterface``. Si possono
 impostare le "violazioni" direttamente su questo oggetto e determinare a quale campo
 questi errori vadano attribuiti::
 
     // ...
-    use Symfony\Component\Validator\ExecutionContext;
+    use Symfony\Component\Validator\ExecutionContextInterface;
 
     class Author
     {
         // ...
         private $firstName;
 
-        public function isAuthorValid(ExecutionContext $context)
+        public function isAuthorValid(ExecutionContextInterface $context)
         {
             // si ha in qualche modo un array di nomi fasulli
             $fakeNames = array();
 
             // verifica se il nome è in effetti un nome fasullo
             if (in_array($this->getFirstName(), $fakeNames)) {
-                $context->addViolationAtSubPath('firstname', 'Questo nome  sembra proprio falso!', array(), null);
+                $context->addViolationAt(
+                    'firstname',
+                    'Questo nome  sembra proprio falso!',
+                    array(),
+                    null
+                );
             }
         }
-     }
+    }
 
 Opzioni
 -------
@@ -131,13 +136,28 @@ Ogni metodo può avere uno dei seguenti formati:
 
     Se il nome di un metodo è una semplice stringa (p.e. ``isAuthorValid``), quel
     metodo sarà richiamato sullo stesso oggetto in corso di validazione e
-    ``ExecutionContext`` sarà l'unico parametro (vedere esempio precedente).
+    ``ExecutionContext`` sarà l'unico parametro (vedere esempio
+    precedente).
 
 2) **Array statico callback**
 
     Ogni metodo può anche essere specificato con un array callback:
 
     .. configuration-block::
+
+        .. code-block:: php-annotations
+
+            // src/Acme/BlogBundle/Entity/Author.php
+            use Symfony\Component\Validator\Constraints as Assert;
+
+            /**
+             * @Assert\Callback(methods={
+             *     { "Acme\BlogBundle\MyStaticValidatorClass", "isAuthorValid" }
+             * })
+             */
+            class Author
+            {
+            }
 
         .. code-block:: yaml
 
@@ -147,20 +167,6 @@ Ogni metodo può avere uno dei seguenti formati:
                     - Callback:
                         methods:
                             -    [Acme\BlogBundle\MyStaticValidatorClass, isAuthorValid]
-
-        .. code-block:: php-annotations
-
-            // src/Acme/BlogBundle/Entity/Author.php
-            use Symfony\Component\Validator\Constraints as Assert;
-
-            /**
-             * @Assert\Callback(methods={
-             *     { "Acme\BlogBundle\MyStaticValidatorClass", "isAuthorValid"}
-             * })
-             */
-            class Author
-            {
-            }
 
         .. code-block:: xml
 
@@ -197,7 +203,10 @@ Ogni metodo può avere uno dei seguenti formati:
                 {
                     $metadata->addConstraint(new Callback(array(
                         'methods' => array(
-                            array('Acme\BlogBundle\MyStaticValidatorClass', 'isAuthorValid'),
+                            array(
+                                'Acme\BlogBundle\MyStaticValidatorClass',
+                                'isAuthorValid',
+                            ),
                         ),
                     )));
                 }
@@ -205,7 +214,8 @@ Ogni metodo può avere uno dei seguenti formati:
 
     In questo caso, sarà richiamato il metodo statico ``isAuthorValid`` della classe
     ``Acme\BlogBundle\MyStaticValidatorClass``. Gli verrà passato sia l'oggetto originale
-    in corso di validazione (p.e. ``Author``) che ``ExecutionContextInterface``::
+    in corso di validazione (p.e. ``Author``) che
+    ``ExecutionContextInterface``::
 
         namespace Acme\BlogBundle;
 
@@ -214,8 +224,10 @@ Ogni metodo può avere uno dei seguenti formati:
 
         class MyStaticValidatorClass
         {
-            public static function isAuthorValid(Author $author, ExecutionContextInterface $context)
-            {
+            public static function isAuthorValid(
+                Author $author,
+                ExecutionContextInterface $context
+            ) {
                 // ...
             }
         }
@@ -226,5 +238,6 @@ Ogni metodo può avere uno dei seguenti formati:
         di rendere il callback una closure PHP o un callback non statico.
         Tuttavia, *non* è attualmente possibile specificare un :term:`servizio`
         come vincolo. Per validare usando un servizio, si dovrebbe
-        :doc:`creare un vincolo personalizzato</cookbook/validation/custom_constraint>`
-        e aggiungere il nuovo vincolo alla propria classe.
+        :doc:`creare un vincolo personalizzato
+        </cookbook/validation/custom_constraint>` e
+        aggiungere il nuovo vincolo alla propria classe.

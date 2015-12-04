@@ -16,7 +16,7 @@ Il valore di ogni paese è un codice di due lettere.
 
 Diversamente dal tipo ``choice``, non occorre specificare l'opzione ``choices`` o
 ``choice_list``, poiché il campo usa automaticamente tutti i paesi del mondo.
-Si *può* specificare una di queste opzioni manulmente, ma allora si dovrebbe
+Si *può* specificare una di queste opzioni manualmente, ma allora si dovrebbe
 usare il tipo ``choice`` direttamente.
 
 +---------------+-----------------------------------------------------------------------+
@@ -66,6 +66,7 @@ Opzioni ereditate
 
 Queste opzioni sono ereditate dal tipo :doc:`choice </reference/forms/types/choice>`:
 
+
 .. include:: /reference/forms/types/options/empty_value.rst.inc
 
 .. include:: /reference/forms/types/options/error_bubbling.rst.inc
@@ -79,6 +80,7 @@ Queste opzioni sono ereditate dal tipo :doc:`choice </reference/forms/types/choi
 .. include:: /reference/forms/types/options/preferred_choices.rst.inc
 
 Queste opzioni sono ereditate dal tipo :doc:`form </reference/forms/types/form>`:
+
 
 .. include:: /reference/forms/types/options/data.rst.inc
 

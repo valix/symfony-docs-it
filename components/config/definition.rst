@@ -97,11 +97,13 @@ Tipo di nodo
 Si può validare il tipo di un valore fornito, usando l'appropriata definizione
 di nodo. I tipi di nodo disponibili sono:
 
-* scalare
+
+
+* scalare (tipo generico che include booleani, stringhe, interi, virgola mobile e ``null``)
 * booleano
 * intero (nuovo in 2.2)
-* enum (nuovo in 2.2)
-* virgola mobile (nuovo in 2.1)
+* virgola mobile (nuovo in 2.2)
+* enum (nuovo in 2.1) (simile a scalare, ma consente solo un insieme determinato di valori)
 * array
 * variabile (nessuna validazione)
 
@@ -140,7 +142,7 @@ Nodi enum
     Il nodo enum è nuovo in Symfony 2.1
 
 I nodi enum forniscono un vincolo che fa corrispondere il dato inserito a una
-serie divalori::
+serie di valori::
 
     $rootNode
         ->children()

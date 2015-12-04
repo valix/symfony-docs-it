@@ -1,6 +1,7 @@
 * :doc:`/cookbook/assetic/index`
 
   * :doc:`/cookbook/assetic/asset_management`
+  * :doc:`/cookbook/assetic/php`
   * :doc:`/cookbook/assetic/uglifyjs`
   * :doc:`/cookbook/assetic/yuicompressor`
   * :doc:`/cookbook/assetic/jpeg_optimize`
@@ -42,6 +43,7 @@
 
   * :doc:`/cookbook/console/console_command`
   * :doc:`/cookbook/console/usage`
+  * :doc:`/cookbook/console/command_in_controller`
   * :doc:`/cookbook/console/sending_emails`
   * :doc:`/cookbook/console/logging`
 
@@ -49,6 +51,7 @@
 
   * :doc:`/cookbook/controller/error_pages`
   * :doc:`/cookbook/controller/service`
+  * :doc:`/cookbook/controller/upload_file`
 
 * **Debug**
 
@@ -107,6 +110,14 @@
   * (validazione) :doc:`/cookbook/validation/custom_constraint`
   * (doctrine) :doc:`/cookbook/doctrine/file_uploads`
 
+* :doc:`/cookbook/frontend/index`
+
+  * :doc:`/cookbook/frontend/bower`
+
+* :doc:`/cookbook/install/index`
+
+  * :doc:`/cookbook/install/unstable_versions`
+
 * :doc:`/cookbook/logging/index`
 
   * :doc:`/cookbook/logging/monolog`
@@ -119,12 +130,13 @@
   * :doc:`/cookbook/profiler/data_collector`
   * :doc:`/cookbook/profiler/matchers`
   * :doc:`/cookbook/profiler/storage`
+  * :doc:`/cookbook/profiler/profiling_data`
 
 * :doc:`/cookbook/request/index`
 
   * :doc:`/cookbook/request/load_balancer_reverse_proxy`
   * :doc:`/cookbook/request/mime_type`
-  * (sessione) :doc:`/cookbook/session/locale_sticky_session`
+  * (session) :doc:`/cookbook/session/locale_sticky_session`
 
 * :doc:`/cookbook/routing/index`
 
@@ -137,26 +149,29 @@
   * :doc:`/cookbook/routing/redirect_trailing_slash`
   * :doc:`/cookbook/routing/extra_information`
 
-* :doc:`/cookbook/security/index`
+* :doc:`Autenticazione di sicurezza (identificare/connettere l'utente) </cookbook/security/index>`
 
   * :doc:`/cookbook/security/form_login_setup`
   * :doc:`/cookbook/security/entity_provider`
   * :doc:`/cookbook/security/remember_me`
   * :doc:`/cookbook/security/impersonating_user`
-  * :doc:`/cookbook/security/voters`
-  * :doc:`/cookbook/security/voters_data_permission`
-  * :doc:`/cookbook/security/acl`
-  * :doc:`/cookbook/security/acl_advanced`
-  * :doc:`/cookbook/security/force_https`
   * :doc:`/cookbook/security/form_login`
-  * :doc:`/cookbook/security/securing_services`
   * :doc:`/cookbook/security/custom_provider`
   * :doc:`/cookbook/security/custom_authentication_provider`
   * :doc:`/cookbook/security/pre_authenticated`
   * :doc:`/cookbook/security/target_path`
   * :doc:`/cookbook/security/csrf_in_login_form`
-  * :doc:`/cookbook/security/access_control`
   * :doc:`/cookbook/security/multiple_user_providers`
+
+* :doc:`Autorizzazione di sicurezza (negare l'accesso) </cookbook/security/index>`
+
+  * :doc:`/cookbook/security/voters`
+  * :doc:`/cookbook/security/voters_data_permission`
+  * :doc:`/cookbook/security/acl`
+  * :doc:`/cookbook/security/acl_advanced`
+  * :doc:`/cookbook/security/force_https`
+  * :doc:`/cookbook/security/securing_services`
+  * :doc:`/cookbook/security/access_control`
 
 * **Serializer**
 
@@ -201,9 +216,11 @@
   * (email) :doc:`/cookbook/email/testing`
   * (form) :doc:`/cookbook/form/unit_testing`
 
-* **Aggiornare**
+* :doc:`/cookbook/upgrade/index`
 
-  * :doc:`/cookbook/upgrading`
+  * :doc:`/cookbook/upgrade/patch_version`
+  * :doc:`/cookbook/upgrade/minor_version`
+  * :doc:`/cookbook/upgrade/major_version`
 
 * :doc:`/cookbook/validation/index`
 

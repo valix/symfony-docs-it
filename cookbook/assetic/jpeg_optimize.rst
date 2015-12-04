@@ -70,7 +70,7 @@ Sarà ora possibile usarlo nei propri template:
 Rimozione dei dati EXIF 
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Senza ulteirori opzioni, questo filtro rimuove solamente le meta-informazioni
+Senza ulteriori opzioni, questo filtro rimuove solamente le meta-informazioni
 contenute nel file. I dati EXIF e i commenti non vengono eliminati: è comunque possibile
 rimuoverli usando l'opzione ``strip_all``:
 
@@ -250,4 +250,10 @@ Assetic:
             ),
         ));
 
+.. tip::
+
+    Si possono comprimere e manipolare immagini caricate, usando il bundle
+    `LiipImagineBundle`_.
+
 .. _`Jpegoptim`: http://www.kokkonen.net/tjko/projects.html
+.. _`LiipImagineBundle`: http://knpbundles.com/liip/LiipImagineBundle

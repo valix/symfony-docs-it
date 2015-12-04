@@ -13,12 +13,8 @@ Questa ricetta parla solo di come strutturare i propri **bunde riutilizzabili**,
 siano facili da configurare ed estendere. Moltre di queste raccomandazioni non servono
 per i bundle dell'applicazione, perché non dovranno restare il più semplici
 possibile. Per i bundle dell'applicazione, basta seguire le pratiche mostrate
-nel libro e nel ricettario.
-
-.. seealso::
-
-    Le best practice per i bundle specifici di applicazioni sono analizzate in
-    :doc:`/best_practices/introduction`.
+nel :doc:`libro </book/index>`, nel :doc:`ricettario</cookbook/index>` e nelle
+:doc:`best practice </best_practices/index>`.
 
 .. index::
    pair: Bundle; Convenzioni di nomenclatura
@@ -190,6 +186,7 @@ Un bundle deve avere una suite di test scritta con PHPUnit e posta sotto la cart
 * La copertura del codice deve essere almeno del 95%.
 
 .. note::
+
    Una suite di test non deve contenere script come ``AllTests.php``, ma appoggiarsi
    a un file ``phpunit.xml.dist``.
 
@@ -209,55 +206,108 @@ Istruzioni di installazione
 Per facilitare l'installazione di bundle di terze parti, si consideri l'uso delle
 seguenti istruzioni standardizzate, nel file ``README.md``.
 
-.. code-block:: text
+.. configuration-block::
 
-    Installazione
-    =============
+    .. code-block:: markdown
 
-    Passo 1: scaricare il bundle
-    ----------------------------
+        Installazione
+        =============
 
-    Aprire una console, entrare nella cartella del progetto ed eseguire il
-    comando seguente per scaricare l'ultima versione stabile di questo bundle:
+        Passo 1: scaricare il bundle
+        ----------------------------
 
-    ```bash
-    $ composer require <nome-pacchetto> "~1"
-    ```
+        Aprire una console, entrare nella cartella del progetto ed eseguire il
+        comando seguente per scaricare l'ultima versione stabile di questo bundle:
 
-    Questo comando richiede Composer installato globalmente, come spiegato
-    nel [capitolo dell'installazione](https://getcomposer.org/doc/00-intro.md)
-    della documentazione di Composer.
+        ```bash
+        $ composer require <nome-pacchetto> "~1"
+        ```
 
-    Passo 2: abilitare il bundle
-    ----------------------------
+        Questo comando richiede Composer installato globalmente, come spiegato
+        nel [capitolo dell'installazione](https://getcomposer.org/doc/00-intro.md)
+        della documentazione di Composer.
 
-    Quindi, abilitare il bundle, aggiungendo la riga seguente nel file `app/AppKernel.php`
-    del progetto:
+        Passo 2: abilitare il bundle
+        ----------------------------
 
-    ```php
-    <?php
-    // app/AppKernel.php
+        Quindi, abilitare il bundle, aggiungendo la riga seguente nel file `app/AppKernel.php`
+        del progetto:
 
-    // ...
-    class AppKernel extends Kernel
-    {
-        public function registerBundles()
+        ```php
+        <?php
+        // app/AppKernel.php
+
+        // ...
+        class AppKernel extends Kernel
         {
-            $bundles = array(
-                // ...
+            public function registerBundles()
+            {
+                $bundles = array(
+                    // ...
 
-                new <vendor>\<nome-bundle>\<nome-lungo-bundle>(),
-            );
+                    new <vendor>\<nome-bundle>\<nome-lungo-bundle>(),
+                );
+
+                // ...
+            }
 
             // ...
         }
+        ```
 
-        // ...
-    }
-    ```
+    .. code-block:: rst
 
-Questo template ipotizza che il bundle sia alla sua versione ``1.x``. In caso contrario, cambiare
-la versione ``"~1"`` in modo appropriato (``"~2"``, ``"~3"``, ecc.)
+        Installazione
+        =============
+
+        Passo 1: scaricare il bundle
+        ----------------------------
+
+        Aprire una console, entrare nella cartella del progetto ed eseguire il
+        comando seguente per scaricare l'ultima versione stabile di questo bundle:
+
+        .. code-block:: bash
+
+            $ composer require <nome-pacchetto> "~1"
+
+        Questo comando richiede Composer installato globalmente, come spiegato
+        nel `capitolo dell'installazione` della documentazione di Composer.
+
+        Passo 2: abilitare il bundle
+        ----------------------------
+
+        Quindi, abilitare il bundle, aggiungendo la riga seguente nel file ``app/AppKernel.php``
+        del progetto:
+
+        .. code-block:: php
+
+            <?php
+            // app/AppKernel.php
+
+            // ...
+            class AppKernel extends Kernel
+            {
+                public function registerBundles()
+                {
+                    $bundles = array(
+                        // ...
+
+                        new <vendor>\<nome-bundle>\<nome-lungo-bundle>(),
+                    );
+
+                    // ...
+                }
+
+                // ...
+            }
+
+        .. _`capitolo dell'installazione`: https://getcomposer.org/doc/00-intro.md
+
+Questo template ipotizza che il bundle sia alla sua ultima versione stabile,
+in cui non si deve fornire il numero di versione del pacchetto
+(p.e. ``composer require friendsofsymfony/user-bundle``). Se le istruzioni di
+installazione fanno riferimento a una versione precedente del bundle o a una versione instabile,
+includere la versione in modo appropriato (p.e. ``composer require friendsofsymfony/user-bundle "~2.0@dev"``).
 
 Eventualmente, si possono aggiungere ulteriori passi (*Passo 3*, *Passo 4*, ecc.) per
 spiegare altri compiti necessari all'installazione, come la registrazione di rotte o
@@ -279,8 +329,9 @@ layout principale, tranne se fornisce un'applicazione completa.
 File di traduzione
 ------------------
 
-Se un bundle fornisce messaggi di traduzione, devono essere definiti in formato
-XLIFF; il dominio deve avere il nome del bundle (``bundle.hello``).
+Se un bundle fornisce messaggi di traduzione, devono essere definiti in formato XLIFF;
+il :ref:`dominio di traduzione <using-message-domains>` deve avere il nome
+del bundle (``bundle.hello``).
 
 Un bundle non deve sovrascrivere messaggi esistenti in altri bundle.
 
@@ -319,12 +370,6 @@ L'utente finale può fornire valori in qualsiasi file di configurazione:
         // app/config/config.php
         $container->setParameter('acme_hello.email.from', 'fabien@example.com');
 
-    .. code-block:: ini
-
-        ; app/config/config.ini
-        [parameters]
-        acme_hello.email.from = fabien@example.com
-
 Recuperare i parametri di configurazione nel codice, dal contenitore::
 
     $container->getParameter('acme_hello.email.from');
@@ -337,9 +382,5 @@ della configurazione semantica, descritta nel ricettario.
     Se si definiscono servizi, devono avere anch'essi come prefisso l'alias del
     bundle.
 
-Imparare di più dal ricettario
-------------------------------
-
-* :doc:`/cookbook/bundles/extension`
-
-.. _standard: http://www.php-fig.org/psr/psr-0/
+.. _`standards`: http://www.php-fig.org/psr/psr-0/
+.. _`PHPDoc`: https://en.wikipedia.org/wiki/PHPDoc

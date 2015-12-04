@@ -33,7 +33,7 @@ fornito dall'estensione Memcached si può trovare in `php.net/memcached.setoptio
 
 Sebbene i gestori di salvataggio nativi possano essere attivati direttamente, usando
 ``ini_set('session.save_handler', $nome);``, Symfony fornisce un modo conveniente
-per attivarrli nello stesso modo dei gestori personalizzati.
+per attivarli nello stesso modo dei gestori personalizzati.
 
 Symfony fornisce driver per i gestori nativi, come per esempio:
 
@@ -94,7 +94,7 @@ Configurare le sessioni di PHP
 configurare la maggior parte delle direttive di php.ini documentate su
 `php.net/session.configuration`_.
 
-Per configurare tali impostazioni, passare le chavi (omettendo la parte ``session.`` iniziale
+Per configurare tali impostazioni, passare le chiavi (omettendo la parte ``session.`` iniziale
 della chiave) come array chiave-valore al parametro ``$options`` del costruttore.
 Oppure impostarle tramite il metodo
 :method:`Symfony\\Component\\HttpFoundation\\Session\\Storage\\NativeSessionStorage::setOptions`
@@ -178,7 +178,7 @@ o 10 minuti di inattività. L'impostazione della scadenza del cookie, in questo 
 è appropriata, perché potrebbe essere manipolata dal client, quindi occorre farlo
 scadere lato server. Il modo più facile di farlo è tramite il garbage collector, che viene
 eseguito con una frequenza ragionevole. Il ``lifetime`` del cookie andrebbe impostato a
-un valore relativamente alto e il ``maxlifetime`` del garbage collectore andrebbe impostato
+un valore relativamente alto e il ``maxlifetime`` del garbage collector andrebbe impostato
 per distruggere le sessioni al periodo di inattività desiderato.
 
 L'altra opzione è verificare specificatamente se una sessione sia scaduta dopo che
@@ -188,6 +188,36 @@ mostrando un messaggio.
 
 Symfony registra alcuni meta-dati di base su ogni sessione, per dare completa libertà
 in quest'area.
+
+Limitare la cache della sessione
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Per evitare che gli utenti vedano dati vecchi, di solito si inviano risorse in cui compare la sessione
+con header che disabilitano la cache. Per questo scopo, le sessioni di PHP hanno un'opzione
+``sessions.cache_limiter``, che determina quali header eventualmente inviare
+nella risposta, quando inizia una sessione.
+
+Dopo la costruzione,
+:class:`Symfony\\Component\\HttpFoundation\\Session\\Storage\\NativeSessionStorage`
+imposta questa opzione globale a ``""`` (non inviare header), in caso lo sviluppatore voglia
+usare un oggetto :class:`Symfony\\Component\\HttpFoundation\\Response` per gestire gli
+header della risposta.
+
+.. caution::
+
+    Se ci si basa sulle sessioni di PHP per gestire la cache HTTP, si *deve* impostare manualmente l'opzione
+    ``cache_limiter`` in
+    :class:`Symfony\\Component\\HttpFoundation\\Session\\Storage\\NativeSessionStorage`
+    a un valore non vuoto.
+
+    Per esempio, la si potrebbe impostare al valore predefinito di PHP durante la costruzione:
+
+    Esempio di utilizzo::
+
+        use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
+
+        $options['cache_limiter'] = session_cache_limiter();
+        $storage = new NativeSessionStorage($options);
 
 Meta-dati di sessione
 ~~~~~~~~~~~~~~~~~~~~~

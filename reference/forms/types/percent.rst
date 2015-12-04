@@ -45,7 +45,7 @@ precision
 **tipo**: ``intero`` **predefinito**: ``0``
 
 Per impostazione predefinita, i numeri inseriti sono arrotondanti. Per consentire
-ultetiori posizioni decimali, usare questa opzione.
+ulteriori posizioni decimali, usare questa opzione.
 
 type
 ~~~~
@@ -72,9 +72,11 @@ Opzioni ereditate
 
 Queste opzioni sono ereditate dal tipo :doc:`form </reference/forms/types/form>`:
 
+
 .. include:: /reference/forms/types/options/data.rst.inc
 
 .. include:: /reference/forms/types/options/disabled.rst.inc
+
 .. include:: /reference/forms/types/options/empty_data.rst.inc
     :end-before: DEFAULT_PLACEHOLDER
 

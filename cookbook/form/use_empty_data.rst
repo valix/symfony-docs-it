@@ -29,8 +29,8 @@ senza parametri.
 
 Se si vuole ridefinire questo comportamento, ci sono due possibili modi.
 
-Opzione 1: instanziare una nuova classe
----------------------------------------
+Opzione 1: istanziare una nuova classe
+--------------------------------------
 
 Una ragione per voler usare questa opzione è se si vuole usare un costruttore con
 parametri. Si ricorda che l'opzione predefinita di ``data_class`` richiama
@@ -62,7 +62,7 @@ il costruttore senza parametri::
     }
 
 Si può istanziare la classe nel modo preferito. In questo esempio, viene passata
-una dipedendenza a ``BlogType`` durante l'istanza, quindi la si usa
+una dipendenza a ``BlogType`` durante l'istanza, quindi la si usa
 per istanziare l'oggetto ``Blog``. Il punto è che si può impostare ``empty_data``
 al nuovo oggetto che si vuole usare.
 

@@ -48,9 +48,10 @@ Su sistemi **Windows**, eseguire il seguente comando da console:
 
     c:\> php -r "readfile('http://symfony.com/installer');" > symfony.phar
 
-Questo comando scarica un file chiamato ``symfony.phar``, che contiene l'installatore di Symfony.
-Salvare o spostare il file nella cartella in cui si vogliono creare i progetti Symfony
-ed eseguire Symfony Installer, con questo comando:
+Questo comando scarica un file chiamato ``symfony.phar``, che contiene l'installatore di
+Symfony. Salvare o spostare il file nella cartella in cui si vogliono creare i
+progetti Symfony ed eseguire l'installatore di Symfony, con questo
+comando:
 
 .. code-block:: bash
 
@@ -93,7 +94,7 @@ la pagina di benvenuto di Symfony:
 
 .. image:: /images/quick_tour/welcome.png
    :align: center
-   :alt:   Pagina di benvenuto di Symfony
+   :alt: Pagina di benvenuto di Symfony
 
 Congratulazioni! Il primo progetto Symfony sta funzionando!
 
@@ -102,8 +103,16 @@ Congratulazioni! Il primo progetto Symfony sta funzionando!
     Al posto della pagina di benvenuto, si potrebbe vedere una pagina vuota o di errore.
     La causa è una mancata configurazione dei permessi delle cartelle. Ci sono diverse
     possibili soluzioni, a seconda del sistema operativo. Sono tutte spiegate
-    nella sezione :ref:`permessi <book-installation-permissions>`
+    nella sezione
+    :ref:`permessi <book-installation-permissions>`
     del libro ufficiale.
+
+    Se la pagina di benvenuto sembra non avere stili o immagini, provare
+    a installarli:
+    
+    .. code-block:: bash
+    
+        $ php app/console assets:install
 
 Dopo aver finito di lavorare sull'applicazione Symfony, si può fermare il
 server, con il comando ``server:stop``:
@@ -154,7 +163,7 @@ spiegata nella prossima sezione)::
     class DefaultController extends Controller
     {
         /**
-         * @Route("/", name="homepage")
+         * @Route("/app/example", name="homepage")
          */
         public function indexAction()
         {
@@ -185,9 +194,7 @@ Rotte
 Le rotte di Symfony mappano ogni richiesta all'azione che la gestisce, facendo corrispondere
 un URL a un percorso configurato dall'applicazione. Aprire di nuovo il file
 ``src/AppBundle/Controller/DefaultController.php`` e dare un'occhiata
-alle tre linee di codice sopra al metodo ``indexAction``:
-
-.. code-block:: php
+alle tre linee di codice sopra al metodo ``indexAction``::
 
     // src/AppBundle/Controller/DefaultController.php
     namespace AppBundle\Controller;
@@ -198,7 +205,7 @@ alle tre linee di codice sopra al metodo ``indexAction``:
     class DefaultController extends Controller
     {
         /**
-         * @Route("/", name="homepage")
+         * @Route("/app/example", name="homepage")
          */
         public function indexAction()
         {
@@ -219,28 +226,28 @@ Il secondo valore di ``@Route()`` (come ``name="homepage"``) è facoltativo e im
 il nome della rotta. Per ora tale nome non è necessario, ma più avanti si rivelerà utile
 per collegare le pagine.
 
-Considerando questo, l'annotazione ``@Route("/", name="homepage")`` crea una nuova
-rotta di nome ``homepage``, che fa eseguire a Symfony l'azione ``index`` del
-controllore ``Default`` quando l'utente visita il percorso ``/`` dell'applicazione.
+Considerando tutto ciò, l'annotazione ``@Route("/app/example", name="homepage")`` crea una
+nuova rotta di nome ``homepage``, che fa eseguire a Symfony l'azione ``index`` del
+controllore ``Default`` quando l'utente visita il percorso
+``/app/example`` dell'applicazione.
 
 .. tip::
 
-    Oltre alle annotazioni PHP, si possono configurare le rotte in file YAML, XML o
-    PHP, come spiegato nel :doc:`capitolo sulle rotte del libro di Symfony </book/routing>`.
-    Tale flessibilità è una delle caratteristiche principali di Symfony, un framework
+    Oltre alle annotazioni PHP, si possono configurare le rotte in file YAML, XML
+    o PHP, come spiegato nel
+    :doc:`capitolo sulle rotte del libro di Symfony </book/routing>`. Tale
+    flessibilità è una delle caratteristiche principali di Symfony, un framework
     che non impone mai determinati formati di configurazione.
 
 Template
 ~~~~~~~~
 
-Il contenuto dell'azione ``index`` è questa istruzione PHP:
-
-.. code-block:: php
+Il contenuto dell'azione ``index`` è questa istruzione PHP::
 
     return $this->render('default/index.html.twig');
 
-Il metodo ``$this->render()`` è un'utile scorciatioa per rendere un template.
-Symfony fornisce alcune scorciatoie a ogni controlore che estenda la classe
+Il metodo ``$this->render()`` è un'utile scorciatoia per rendere un template.
+Symfony fornisce alcune scorciatoie a ogni controllore che estenda la classe
 ``Controller``.
 
 La posizione predefinita dei template è la cartella ``app/Resources/views/``.
@@ -258,8 +265,9 @@ il seguente codice:
     {% endblock %}
 
 Questo template è scritto in `Twig`_, un motore di template creato per applicazioni
-PHP moderne. La :doc:`seconda parte di questa guida </quick_tour/the_view>`
-introduce il modo in cui funzionano i template in Symfony.
+PHP moderne. La
+:doc:`seconda parte di questa guida </quick_tour/the_view>` introduce
+il modo in cui funzionano i template in Symfony.
 
 .. _quick-tour-big-picture-environments:
 
@@ -281,13 +289,14 @@ utile di Symfony: il profilatore.
 .. image:: /images/quick_tour/profiler.png
    :align: center
 
-Questo strumento fonisce così tante informazioni interne sull'applicazione che ci
+Questo strumento fornisce così tante informazioni interne sull'applicazione che ci
 si potrebbe preoccupare sulla loro visibilità pubblica. Symfony è
 consapevole del problema e, per questo, non mostrerà tale barra quando
 l'applicazione gira su un server di produzione.
 
 Come fa Symfony a sapere se nun'applicazione stia girando localmente o su
-un server di produzione? Nella prossima sezione si illustrerà il concetto di **ambiente**.
+un server di produzione? Nella prossima sezione si illustrerà il concetto di
+**ambiente**.
 
 .. _quick-tour-big-picture-environments-intro:
 
@@ -308,7 +317,8 @@ Se si preferisce mostrare sempre l'ambiente ``dev``, si può aprire l'URL
 La differenza principale tra gli ambienti è che ``dev`` è ottimizzato per fornire
 varie informazioni allo sviluppatore, che vuol dire prestazioni peggiori.
 Invece, ``prod`` è ottimizzato per ottenere migliori prestazioni, quindi le informazioni
-di debug sono disabilitate, come anche la barra di debug.
+di debug sono disabilitate, come anche la barra di
+debug.
 
 Un'altra differenza tra gli ambienti è rappresentata dalle opzioni di configurazione usate per
 eseguire l'applicazione. Accedendo all'ambiente ``dev``, Symfony carica il file di
@@ -346,5 +356,5 @@ migliore e più veloce. Se siete ansiosi di saperne di più, andate alla prossim
 sezione: ":doc:`la vista <the_view>`".
 
 .. _Composer: https://getcomposer.org/
-.. _installer: http://getcomposer.org/download
+.. _installer: https://getcomposer.org/download
 .. _Twig: http://twig.sensiolabs.org/

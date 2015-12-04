@@ -15,7 +15,7 @@ Per creare un nuovo sito Heroku, `iscriversi a Heroku`_ o entrare
 con le proprie credenziali. Quindi scaricare e installare `Heroku Toolbelt`_ sul
 proprio computer.
 
-Si puà anche dare un'occhiata alla guida `getting Started with PHP on Heroku`_, per
+Si può anche dare un'occhiata alla guida `getting Started with PHP on Heroku`_, per
 acquisire familiarità con le specifiche di come funzionano le applicazioni PHP su Heroku.
 
 Preparare l'applicazione
@@ -25,9 +25,9 @@ Il deploy di un'applicazione Symfony su Heroku non richiede alcuna modifica nel
 codice, ma richiede alcuni piccoli aggiustamenti alla configurazione.
 
 La posizione standard dei log di Symfony è la cartella ``app/log/``.
-Questo non è idale, perché Heroku usa un `filesystem effimero`_. Su
+Questo non è ideale, perché Heroku usa un `filesystem effimero`_. Su
 Heroku, il modo migliore per salvare i log è `Logplex`_. Il modo migliore per
-inviare dati di log a Logplex è la scrittura su ``STDERR`` o ``STDOUT``. Fortunamente, 
+inviare dati di log a Logplex è la scrittura su ``STDERR`` o ``STDOUT``. Fortunamente,
 Symfony usa l'eccellente libreria Monolog per gestire i log. Quindi, il cambio di
 destinazione per i log implica una semplice modifica nella configurazione.
 
@@ -69,7 +69,7 @@ Si è ora pronti per il deploy dell'applicazione, come spiegato nella prossima s
 Deploy dell'applicazione su Heroku
 ----------------------------------
 
-Perima del primo deploy, occorrono solo altri due passi, descritti
+Prima del primo deploy, occorrono solo altri due passi, descritti
 qui:
 
 #. :ref:`Creare un Procfile <heroku-procfile>`
@@ -95,7 +95,7 @@ applicazioni. Tuttavia, alle applicazioni Symfony si applicano due circostanze s
 .. note::
 
     I binari dei venditori sono solitamente installati da Composer in ``vendor/bin``, ma
-    a volte (p.e. con un progeetto basato su Symfony Standard Edition), la
+    a volte (p.e. con un progetto basato su Symfony Standard Edition), la
     posizione sarà diversa. In caso di dubbi, si può sempre eseguire
     ``composer config bin-dir`` per trovare la posizione corretta.
 
@@ -105,6 +105,16 @@ radice dell'applicazione e inserirvi il seguente contenuto:
 .. code-block:: text
 
     web: bin/heroku-php-apache2 web/
+
+.. note::
+
+    Se si preferisce usare Nginx, disponibile su Heroku, si può creare un
+    file di configurazione e puntarlo dal proprio Procfile, come descritto
+    nella `documentazione di Heroku`_:
+
+    .. code-block:: text
+
+        web: bin/heroku-php-nginx -C nginx_app.conf web/
 
 Se si preferisce lavorare sulla console, eseguire i seguenti comandi
 per creare il file ``Procfile`` e aggiungerlo al repository:
@@ -140,6 +150,13 @@ variabili d'ambiente, quindi basta un singolo comando per preparare il deploy:
 .. code-block:: bash
 
     $ heroku config:set SYMFONY_ENV=prod
+
+.. caution::
+
+    Fare attenzione, perché le dipendenze di ``composer.json`` elencate nella sezione ``require-dev``
+    non sono mai installate, durante un deploy su Heroku. Questo potrebbe causare problemi,
+    se il proprio ambiente Symfony si appoggia a tali pacchetti. La soluzione è spostare i
+    pacchetti dall sezione ``require-dev`` alla sezione ``require``.
 
 .. _heroku-push-code:
 .. _pushing-to-heroku:
@@ -228,6 +245,85 @@ Si dovrebbe vedere l'applicazione Symfony nel browser.
     AcmeDemoBundle è caricato solo in ambiente dev (lo si può verificare nella classe
     ``AppKernel``). Provare ad aprire ``/app/example`` da AppBundle.
 
+Passi di compilazione personalizzati
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Se si voglio eseguire comandi aggiuntivi durante una build, si possono sfruttare i
+`passi di compilazione personalizzati`_ di Heroku. Si immagini di voler rimuovere il front controller `dev`
+dall'ambiente di produzione su Heroku, per evitare possibili vulnerabilità.
+L'aggiunta di un comando per rimuovere ``web/app_dev.php`` a `post-install-commands`_ in Composer
+funzionerebbe, ma rimuoverebbe il front controller anche nell'ambiente di sviluppo, a ogni
+``composer install`` o ``composer update``. Si può invece aggiungere un
+`comando di Composer personalizzato`_, chiamato ``compile`` (il nome è una convenzione di Heroku) alla sezione
+``scripts`` di ``composer.json``. I comandi elencati si agganciano al processo di deploy di
+Heroku:
+
+.. code-block:: json
+
+    {
+        "scripts": {
+            "compile": [
+                "rm web/app_dev.php"
+            ]
+        }
+    }
+
+Questo risulta molto utile anche per costruire risorse sul sistema di produzione, per esempio con Assetic:
+
+.. code-block:: json
+
+    {
+        "scripts": {
+            "compile": [
+                "app/console assetic:dump"
+            ]
+        }
+    }
+
+.. sidebar:: Dipendenze di Node.js
+
+    La costruzione delle risorse potrebbe dipendere da pacchetti di node, come ``uglifyjs`` o ``uglifycss``
+    per la minificazione. L'installazione di pacchetti di node durante il deploy richiede node
+    installato. Attualmente, Heroku compila le app usando il buildpack PHP, che viene
+    individuato automaticamente in base alla presenza del file ``composer.json`` e che non include
+    node. Poiché il buildpack Node.js ha una precedenza maggiore rispetto al buildpack PHP,
+    (vedere i `buildpack di Heroku`_), aggiungere un ``package.json`` con le dipendenze di node
+    fa in modo che Heroku opti invece per il buildpack Node.js:
+
+    .. code-block:: json
+
+        {
+            "name": "miaApp",
+            "engines": {
+                "node": "0.12.x"
+            },
+            "dependencies": {
+                "uglifycss": "*",
+                "uglify-js": "*"
+            }
+        }
+
+    Al deploy successivo, Heroku compilerà l'app usando il buildpack Node.js e i
+    pacchetti npm saranno disponibili. Ora però ``composer.json`` sarà
+    ignorato. Per compilare l'app con entrambi i buildpack, Node.js *e* PHP, si può
+    usare uno speciale `buildpack multiplo`_. Per scavalcare l'individuazione automatica, si
+    deve esplicitare l'URL del buildpack:
+
+    .. code-block:: bash
+
+        $ heroku buildpack:set https://github.com/ddollar/heroku-buildpack-multi.git
+
+    Quindi, aggiungere un file ``.buildpacks`` al progetto, con i buildpack necessari:
+
+    .. code-block:: text
+
+        https://github.com/heroku/heroku-buildpack-nodejs.git
+        https://github.com/heroku/heroku-buildpack-php.git
+
+    Al deploy successivo, si otterranno entrambi i buildpack. Questa configurazione abilita anche
+    l'ambiente di Heroku all'uso di strumenti di build automatici basati su node, come
+    `Grunt`_ o `gulp`_.
+
 .. _`articolo originale`: https://devcenter.heroku.com/articles/getting-started-with-symfony2
 .. _`iscriversi a Heroku`: https://signup.heroku.com/signup/dc
 .. _`Heroku Toolbelt`: https://devcenter.heroku.com/articles/getting-started-with-php#local-workstation-setup
@@ -237,3 +333,10 @@ Si dovrebbe vedere l'applicazione Symfony nel browser.
 .. _`verified that the RSA key fingerprint is correct`: https://devcenter.heroku.com/articles/git-repository-ssh-fingerprints
 .. _`comandi post-installazione`: https://getcomposer.org/doc/articles/scripts.md
 .. _`variabili di configurazione`: https://devcenter.heroku.com/articles/config-vars
+.. _`passi di compilazione personalizzati`: https://devcenter.heroku.com/articles/php-support#custom-compile-step
+.. _`comando di Composer personalizzato`: https://getcomposer.org/doc/articles/scripts.md#writing-custom-commands
+.. _`buildpack di Heroku`: https://devcenter.heroku.com/articles/buildpacks
+.. _`buildpack multiplo`: https://github.com/ddollar/heroku-buildpack-multi.git
+.. _`Grunt`: http://gruntjs.com
+.. _`gulp`: http://gulpjs.com
+.. _`documentazione di Heroku`: https://devcenter.heroku.com/articles/custom-php-settings#nginx

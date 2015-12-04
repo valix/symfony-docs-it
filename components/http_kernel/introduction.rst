@@ -19,6 +19,8 @@ Installazione
 * Installandolo :doc:`via Composer</components/using_components>` (``symfony/http-kernel`` su Packagist);
 * Utilizzando il repository ufficiale su Git (https://github.com/symfony/HttpKernel).
 
+.. include:: /components/require_autoload.rst.inc
+
 Il flusso di una richiesta
 --------------------------
 
@@ -79,9 +81,10 @@ e spiega come funziona una specifica implementazione di HttpKernel, il framework
 Symfony.
 
 All'inizio, l'uso di :class:`Symfony\\Component\\HttpKernel\\HttpKernel`
-è molto semplice e implica la creazione un :doc:`distributore di eventi</components/event_dispatcher/introduction>`
-e un :ref:`risolutore di controllori<component-http-kernel-resolve-controller>`
-(spiegato più avanti). Per completare un kernel funzionante, si aggiungeranno ulteriori
+è molto semplice e implica la creazione un
+:doc:`distributore di eventi </components/event_dispatcher/introduction>` e un
+:ref:`risolutore di controllori <component-http-kernel-resolve-controller>` (spiegato
+più avanti). Per completare un kernel funzionante, si aggiungeranno ulteriori
 ascoltatori agli eventi discussi sotto::
 
     use Symfony\Component\HttpFoundation\Request;
@@ -164,7 +167,7 @@ dal risolutore di controllori).
 
 Complessivamente, lo scopo dell'evento ``kernel.request`` è quello di creare e restituire
 una ``Response`` direttamente oppure di aggiungere informazioni alla ``Request``
-(p.e. impostando il locale o altre informaioni sugli attributi della
+(p.e. impostando il locale o altre informazioni sugli attributi della
 ``Request``).
 
 .. note::
@@ -481,10 +484,10 @@ più veloce possibile al client (p.e. invio di email).
 
 .. caution::
 
-    Internamente, HttpKernel  fa uso della funazione :phpfunction:`fastcgi_finish_request` di
+    Internamente, HttpKernel  fa uso della funzione :phpfunction:`fastcgi_finish_request` di
     PHP. Questo vuole dire che, al momento, solo le API del server `PHP FPM`_ sono
     in grado di inviare al cliente una risposta mentre il processo PHP del server
-    esegue ancora alcuni compiti. Con le API di ogni altro server, gli acoltatori di ``kernel.terminate``
+    esegue ancora alcuni compiti. Con le API di ogni altro server, gli ascoltatori di ``kernel.terminate``
     sono comunque eseguiti, ma la risposta non viene inviata al cliente finché non
     sono tutti completati.
 
@@ -606,7 +609,7 @@ Un esempio funzionante
 ----------------------
 
 Quando si usa il componente HttpKernel, si è liberi di connettere qualsiasi ascoltatore
-agli eventi del nuvlce e di usare qualsiasi risolutore di controllori che implementi
+agli eventi del kernel e di usare qualsiasi risolutore di controllori che implementi
 :class:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface`.
 Tuttavia, il componente HttpKernel dispone di alcuni ascoltatori predefiniti e di un
 ControllerResolver predefinito, utilizzabili per creare un esempio funzionante::
@@ -680,10 +683,10 @@ parametro, come segue::
 
 Questo crea un altro ciclo richiesta-risposta, in cui la nuova ``Request`` è
 trasformata in una ``Response``. L'unica differenza interna è che alcuni
-ascoltatori (p.e. security) possono intervenire solo per la richiesta principale. A ggni
+ascoltatori (p.e. security) possono intervenire solo per la richiesta principale. A ogni
 ascoltatore viene passata una sotto-classe di :class:`Symfony\\Component\\HttpKernel\\Event\\KernelEvent`,
 il cui metodo :method:`Symfony\\Component\\HttpKernel\\Event\\KernelEvent::getRequestType`
-può essere usato per capire se la richiesta corrente sia una richiesta principale o  una sotto-richiesta.
+può essere usato per capire se la richiesta corrente sia una richiesta principale o una sotto-richiesta.
 
 Per esempio, un ascoltatore che deve agire solo sulla richiesta principale può
 assomigliare a questo::
